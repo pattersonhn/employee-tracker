@@ -150,3 +150,66 @@ connection.connect(function(err) {
               });
             });
         }
+
+        function updateEmployee() {
+            inquirer
+              .prompt([
+                {
+                  type: "input",
+                  message: "Which employee would you like to update?",
+                  name: "eeUpdate"
+                },
+          
+                {
+                  type: "input",
+                  message: "What do you want to update to?",
+                  name: "updateRole"
+                }
+              ])
+              .then(function(answer) {
+                connection.query('UPDATE employee SET role_id=? WHERE first_name= ?',[answer.updateRole, answer.eeUpdate],function(err, res) {
+                    if (err) throw err;
+                    console.table(res);
+                    startScreen();
+                  });
+                });
+            }
+
+            function viewDepartment() {
+                
+                let query = "SELECT * FROM department";
+                connection.query(query, function(err, res) {
+                  if (err) throw err;
+                  console.table(res);
+                  startScreen();
+                });
+                
+              }      
+
+              function viewRoles() {
+                
+                let query = "SELECT * FROM role";
+                connection.query(query, function(err, res) {
+                  if (err) throw err;
+                  console.table(res);
+                  startScreen();
+                });
+                
+              }
+
+              function viewEmployees() {
+                
+                let query = "SELECT * FROM employee";
+                connection.query(query, function(err, res) {
+                  if (err) throw err;
+                  console.table(res);
+                  startScreen();
+                });
+                
+              }
+              
+              function quit() {
+                connection.end();
+                process.exit();
+              } 
+              
